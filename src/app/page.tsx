@@ -34,10 +34,8 @@ export default function Home() {
   const convertToRelativeCoordinates = (clientX: number, clientY: number): { x: number, y: number } => {
     if (!imageRef.current || !imageContainerRef.current) return { x: 0, y: 0 }
 
-    const rect = imageContainerRef.current.getBoundingClientRect()
     const imageRect = imageRef.current.getBoundingClientRect()
     
-    // Usar el tamaño real de la imagen renderizada
     const x = ((clientX - imageRect.left) / imageRect.width) * 100
     const y = ((clientY - imageRect.top) / imageRect.height) * 100
 
@@ -196,7 +194,7 @@ export default function Home() {
       setImageUrl(config.imageUrl)
       setBoxes(config.boxes)
       setError(null)
-    } catch (error) {
+    } catch {
       setError('Error al parsear el JSON')
     }
   }
@@ -228,7 +226,7 @@ export default function Home() {
         const config: ImageConfig = JSON.parse(e.target?.result as string)
         setImageUrl(config.imageUrl)
         setBoxes(config.boxes)
-      } catch (error) {
+      } catch {
         setError('Error al cargar el archivo de configuración')
       }
     }
@@ -298,6 +296,7 @@ export default function Home() {
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   ref={imageRef}
                   src={imageUrl}
